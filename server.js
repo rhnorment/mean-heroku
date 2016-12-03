@@ -106,5 +106,11 @@ app.put("/contacts/:id", function(req, res) {
 });
 
 app.delete("/contacts/:id", function(req, res) {
-
+    db.collection(CONTACTS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, res) {
+        if (err) {
+            handleError(res, err.message, "Failed to delete contact");
+        } else {
+            res.status(204).end();
+        }
+    });
 });
