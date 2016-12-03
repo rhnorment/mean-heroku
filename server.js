@@ -93,7 +93,16 @@ app.get("/contacts/:id", function(req, res) {
 });
 
 app.put("/contacts/:id", function(req, res) {
+    var updateDoc = req.body;
+    delete updateDoc._id;
 
+    db.collection(CONTACTS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, function(err, doc) {
+        if (err) {
+            handleError(res, err.message, "Failed to update contact");
+        } else {
+            res.status(204).end();
+        }
+    });
 });
 
 app.delete("/contacts/:id", function(req, res) {
